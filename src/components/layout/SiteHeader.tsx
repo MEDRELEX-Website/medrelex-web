@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { Menu, X, Activity } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 
 const emptySubscribe = () => () => {};
 
@@ -15,21 +16,21 @@ function useMounted() {
 }
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/#solutions", label: "Solutions" },
-  { href: "/#platform", label: "Platform" },
-  { href: "/#about", label: "About Us" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/platform", label: "Platform" },
+  { href: "/healthcare-professionals", label: "For Healthcare Professionals" },
+  { href: "/privacy-trust", label: "Privacy & Trust" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function SiteHeader() {
-  // Safe initial state: false on both server and initial client render
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
   const mounted = useMounted();
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setIsOpen(false);
       }
     };
@@ -37,6 +38,18 @@ export default function SiteHeader() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
@@ -47,78 +60,108 @@ export default function SiteHeader() {
   };
 
   return (
-    <header suppressHydrationWarning className="sticky top-0 z-50 w-full border-b border-zinc-200/80 bg-white/90 backdrop-blur-md dark:border-zinc-800/80 dark:bg-black/90">
-      <div suppressHydrationWarning className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand Logo */}
+    <header
+      suppressHydrationWarning
+      className="sticky top-0 z-50 w-full border-b border-[#D7E0EA] bg-[#F8FAFC]/95 backdrop-blur-sm"
+    >
+      <div
+        suppressHydrationWarning
+        className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12"
+      >
+        {/* Brand Wordmark */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-900 transition-colors hover:text-emerald-600 dark:text-zinc-50 dark:hover:text-emerald-400"
+          className="flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded-sm"
           onClick={closeMenu}
+          aria-label="MEDRELEX home"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-sm">
-            <Activity className="h-5 w-5" />
-          </div>
-          <span>Medrelex</span>
+          <span className="text-xl font-bold tracking-tight text-[#0A192F] transition-colors group-hover:text-[#36978F]">
+            MEDRELEX
+          </span>
+          <span className="hidden sm:inline-block text-[11px] font-mono uppercase tracking-wider text-[#64748B] border border-[#D7E0EA] rounded px-1.5 py-0.5 ml-1">
+            Research Preview
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex md:items-center md:gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav
+          className="hidden lg:flex lg:items-center lg:gap-8"
+          aria-label="Primary navigation"
+        >
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded px-1 py-0.5 ${
+                  isActive
+                    ? "text-[#0A192F] font-semibold underline decoration-[#36978F] decoration-2 underline-offset-8"
+                    : "text-[#64748B] hover:text-[#0A192F]"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Desktop Action Button */}
-        <div className="hidden md:flex md:items-center md:gap-4">
+        {/* Desktop Primary Action */}
+        <div className="hidden lg:flex lg:items-center">
           <Link
-            href="/#portal"
-            className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95"
+            href="/contact?audience=individual"
+            className="inline-flex items-center justify-center rounded-lg bg-[#0A192F] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#172B4D] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] focus-visible:ring-offset-2"
           >
-            Portal Access
+            Join Early Research
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle Button */}
-        <div className="flex items-center md:hidden">
+        {/* Mobile Menu Button */}
+        <div className="flex items-center lg:hidden">
           <button
             type="button"
             onClick={toggleMenu}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+            className="inline-flex items-center justify-center rounded-lg p-2.5 text-[#172B4D] border border-[#D7E0EA] bg-white hover:bg-[#E8EEF5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F]"
             aria-expanded={isOpen}
-            aria-label="Toggle navigation menu"
+            aria-controls="mobile-nav-drawer"
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer: safe SSR hydration, rendered cleanly when opened on client */}
+      {/* Mobile Navigation Drawer */}
       {mounted && isOpen && (
-        <div className="border-b border-zinc-200 bg-white px-4 pt-2 pb-6 shadow-lg md:hidden dark:border-zinc-800 dark:bg-zinc-950">
-          <nav className="flex flex-col space-y-3">
-            {navLinks.map((link) => (
+        <div
+          id="mobile-nav-drawer"
+          className="fixed inset-x-0 top-20 bottom-0 bg-[#F8FAFC] border-b border-[#D7E0EA] px-6 py-8 shadow-xl lg:hidden overflow-y-auto"
+        >
+          <nav className="flex flex-col space-y-4 max-w-lg mx-auto" aria-label="Mobile navigation">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className={`rounded-lg px-4 py-3 text-base font-medium transition-colors ${
+                    isActive
+                      ? "bg-[#E8EEF5] text-[#0A192F] font-semibold"
+                      : "text-[#172B4D] hover:bg-[#E8EEF5]/70"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <div className="pt-4 border-t border-[#D7E0EA]">
               <Link
-                key={link.label}
-                href={link.href}
+                href="/contact?audience=individual"
                 onClick={closeMenu}
-                className="rounded-md px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+                className="flex w-full items-center justify-center rounded-lg bg-[#0A192F] px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#172B4D]"
               >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-2">
-              <Link
-                href="/#portal"
-                onClick={closeMenu}
-                className="flex w-full items-center justify-center rounded-full bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:bg-emerald-700"
-              >
-                Portal Access
+                Join Early Research
               </Link>
             </div>
           </nav>

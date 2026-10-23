@@ -15,8 +15,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Medrelex | Healthcare Intelligence & Workflow Platform",
-  description: "Advanced healthcare data interoperability, clinical workflows, and intelligence platform.",
+  metadataBase: new URL("https://medrelex.com"),
+  title: {
+    default: "MEDRELEX | Longitudinal Health Intelligence",
+    template: "%s | MEDRELEX",
+  },
+  description:
+    "MEDRELEX is developing a private health intelligence platform to connect health information over time and help people and healthcare teams see the bigger picture.",
+  openGraph: {
+    title: "MEDRELEX | Longitudinal Health Intelligence",
+    description:
+      "MEDRELEX is developing a private health intelligence platform to connect health information over time and help people and healthcare teams see the bigger picture.",
+    url: "https://medrelex.com",
+    siteName: "MEDRELEX",
+    locale: "en_US",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -39,11 +57,13 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-black dark:text-zinc-50 font-sans"
+        className="min-h-full flex flex-col bg-[#F8FAFC] text-[#172B4D] font-sans selection:bg-[#36978F]/20 selection:text-[#0A192F]"
         suppressHydrationWarning
       >
         <SiteHeader />
-        <div className="flex flex-1 flex-col" suppressHydrationWarning>{children}</div>
+        <main id="main-content" className="flex flex-1 flex-col" suppressHydrationWarning>
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>
