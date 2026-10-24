@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/content/SectionHeading";
 import ConceptLabel from "@/components/content/ConceptLabel";
 import ProcessStep from "@/components/content/ProcessStep";
+import ConceptTeaser from "@/components/demo/ConceptTeaser";
 import {
   ArrowRight,
   ShieldCheck,
@@ -13,21 +15,43 @@ import {
   Stethoscope,
   Building2,
   TrendingUp,
+  FileText,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "MEDRELEX | Longitudinal Health Intelligence",
+  description:
+    "Health information is spread across records, labs, medications, and devices. MEDRELEX is exploring how relevant context across time could help people prepare for more informed healthcare conversations.",
+  alternates: {
+    canonical: "https://medrelex.com",
+  },
+  openGraph: {
+    title: "MEDRELEX | Longitudinal Health Intelligence",
+    description:
+      "Health information is spread across records, labs, medications, and devices. MEDRELEX is exploring how relevant context across time could help people prepare for more informed healthcare conversations.",
+    url: "https://medrelex.com",
+    siteName: "MEDRELEX",
+    locale: "en_US",
+    type: "website",
+  },
+};
 
 export default function Home() {
   const problemCards = [
     {
       title: "Different pieces",
       desc: "Records, lab reports, medications, home measurements, and personal observations may live in different places.",
+      icon: <Layers className="h-5 w-5" />,
     },
     {
       title: "Context matters",
       desc: "A single reading can be difficult to interpret without knowing what else was happening around that time.",
+      icon: <Activity className="h-5 w-5" />,
     },
     {
       title: "The story spans time",
       desc: "People may need to explain the same history repeatedly when preparing for a conversation with a healthcare professional.",
+      icon: <Calendar className="h-5 w-5" />,
     },
   ];
 
@@ -42,7 +66,7 @@ export default function Home() {
       step: "02",
       title: "Place events in time",
       desc: "A longitudinal view could make it easier to see when measurements, reported symptoms, medication changes, and other events occurred.",
-      status: "Product vision",
+      status: "Unique Selling Point",
     },
     {
       step: "03",
@@ -54,7 +78,7 @@ export default function Home() {
       step: "04",
       title: "Prepare for a conversation",
       desc: "A concise view may help a person identify questions to discuss with an authorized healthcare professional. It does not replace clinical judgment.",
-      status: "Potential use; not CDS",
+      status: "Potential use",
     },
   ];
 
@@ -90,15 +114,15 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-20 sm:space-y-28 py-12 sm:py-20">
+    <div className="space-y-20 sm:space-y-28 py-16 sm:py-24">
       {/* 1. Hero Section */}
       <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           <div className="lg:col-span-7 space-y-6">
             <SectionHeading
               eyebrow="LONGITUDINAL HEALTH INTELLIGENCE — IN DEVELOPMENT"
               title="Your health is a story, not a collection of readings."
-              description="Health information can be spread across records, lab reports, medications, home measurements, wearable devices, and conversations with different providers. MEDRELEX is developing a private health intelligence platform designed to connect relevant information over time and help people and their healthcare teams see the bigger picture."
+              description="Health information can be spread across records, lab reports, medications, home measurements, wearable devices, and conversations with different providers. MEDRELEX is exploring how relevant context across time could help people prepare for more informed healthcare conversations."
               as="h1"
             />
             <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -124,7 +148,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Hero Visual: Abstract Timeline Demonstration Mock */}
+          {/* Desktop Right Side Visual: Abstract Timeline Preview Graphic */}
           <div className="lg:col-span-5 space-y-3">
             <ConceptLabel />
             <div className="rounded-[14px] border border-[#D7E0EA] bg-white p-6 shadow-xs space-y-4">
@@ -194,10 +218,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. Problem Section */}
+      {/* 2. Problem Section ("Your health information tells a bigger story.") */}
       <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 space-y-8">
         <div>
           <SectionHeading
+            eyebrow="THE CHALLENGE"
             title="Your health information tells a bigger story."
             description="Different sources can each show one part of a person’s health. Understanding how those pieces relate over time may take effort, especially when information is reviewed across appointments or providers."
             as="h2"
@@ -207,11 +232,14 @@ export default function Home() {
           {problemCards.map((c) => (
             <div
               key={c.title}
-              className="rounded-[14px] border border-[#D7E0EA] bg-white p-6 sm:p-8 shadow-xs flex flex-col justify-between"
+              className="rounded-[14px] border border-[#D7E0EA] bg-white p-6 sm:p-8 shadow-xs flex flex-col justify-between hover:border-[#36978F]/40 transition-colors"
             >
-              <div>
+              <div className="space-y-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E8EEF5] text-[#36978F]">
+                  {c.icon}
+                </div>
                 <h3 className="text-lg font-semibold text-[#0A192F]">{c.title}</h3>
-                <p className="mt-2 text-sm text-[#172B4D]/80 leading-relaxed">
+                <p className="text-sm text-[#172B4D]/80 leading-relaxed">
                   {c.desc}
                 </p>
               </div>
@@ -224,10 +252,11 @@ export default function Home() {
         </p>
       </section>
 
-      {/* 3. Product Thesis Section */}
+      {/* 3. Product Thesis Section ("From information to context.") */}
       <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 space-y-8">
         <div>
           <SectionHeading
+            eyebrow="THE MEDRELEX APPROACH"
             title="From information to context."
             description="The four architectural phases of the proposed longitudinal health intelligence model."
             as="h2"
@@ -255,10 +284,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Who It Is For Section */}
+      {/* 4. Concept Preview Section ("What a connected health story could look like.") */}
       <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 space-y-8">
         <div>
           <SectionHeading
+            eyebrow="CONCEPTUAL PREVIEW"
+            title="What a connected health story could look like."
+            description="An illustrative preview of how fragmented records, personal observations, and medication timelines can come together in a unified, chronological view."
+            as="h2"
+          />
+        </div>
+        <ConceptTeaser />
+      </section>
+
+      {/* 5. Audience Routing Cards ("Built around real questions from different perspectives.") */}
+      <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 space-y-8">
+        <div>
+          <SectionHeading
+            eyebrow="AUDIENCE COLLABORATION"
             title="Built around real questions from different perspectives."
             description="We are validating our platform concept with participants across the healthcare ecosystem."
             as="h2"
@@ -297,7 +340,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Privacy & Trust Banner */}
+      {/* 6. Privacy & Trust Callout ("Health information deserves discretion.") */}
       <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <div className="rounded-[14px] border border-[#D7E0EA] bg-[#E8EEF5]/60 p-8 sm:p-10 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-3xl">
@@ -327,15 +370,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Current Stage & Closing CTA */}
+      {/* 7. Current Stage ("Help shape what should be built.") */}
       <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-        <div className="rounded-[14px] border border-[#D7E0EA] bg-white p-8 sm:p-12 shadow-xs space-y-8 text-center max-w-4xl mx-auto">
+        <div className="rounded-[14px] border border-[#D7E0EA] bg-white p-8 sm:p-12 shadow-xs space-y-6 text-center max-w-4xl mx-auto">
           <div className="space-y-3">
             <p className="font-mono text-xs uppercase tracking-wider text-[#64748B]">
               EARLY DEVELOPMENT & VALIDATION
             </p>
             <h2 className="text-2xl sm:text-3xl font-semibold text-[#0A192F]">
-              Help shape a more connected view of health.
+              Help shape what should be built.
             </h2>
             <p className="text-base text-[#172B4D]/80 max-w-2xl mx-auto leading-relaxed">
               MEDRELEX is in an early development and validation stage. We are
@@ -345,26 +388,65 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="pt-2">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-lg bg-[#0A192F] px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#172B4D] active:scale-[0.98]"
+            >
+              Connect With Our Team
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Closing CTA Banner (High-impact full-width navy panel) */}
+      <section className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+        <div className="rounded-2xl bg-[#0A192F] text-white p-8 sm:p-12 lg:p-16 border border-[#172B4D] shadow-md space-y-8 text-center">
+          <div className="space-y-4 max-w-3xl mx-auto">
+            <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[#36978F]">
+              JOIN THE EARLY RESEARCH EFFORT
+            </p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white leading-tight">
+              Ready to explore a more connected health story?
+            </h2>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto">
+              We invite patients, healthcare professionals, health systems, and
+              advisors to contribute early feedback as we build the foundations of
+              longitudinal health intelligence.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto pt-2">
             <Link
               href="/contact?audience=individual"
-              className="inline-flex items-center justify-center rounded-lg bg-[#0A192F] px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#172B4D]"
+              className="inline-flex items-center justify-center rounded-lg bg-[#36978F] px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all hover:bg-[#2B7A74] active:scale-[0.98]"
             >
-              I’m interested as an individual
+              Individuals & Families
             </Link>
             <Link
               href="/contact?audience=clinician"
-              className="inline-flex items-center justify-center rounded-lg border border-[#D7E0EA] bg-white px-5 py-3 text-xs font-semibold uppercase tracking-wider text-[#0A192F] shadow-xs transition-all hover:bg-[#E8EEF5]"
+              className="inline-flex items-center justify-center rounded-lg border border-[#D7E0EA]/30 bg-white/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all hover:bg-white/10 active:scale-[0.98]"
             >
-              I’m a healthcare professional
+              Healthcare Professionals
             </Link>
             <Link
               href="/contact?audience=partner"
-              className="inline-flex items-center justify-center rounded-lg border border-[#D7E0EA] bg-white px-5 py-3 text-xs font-semibold uppercase tracking-wider text-[#0A192F] shadow-xs transition-all hover:bg-[#E8EEF5]"
+              className="inline-flex items-center justify-center rounded-lg border border-[#D7E0EA]/30 bg-white/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all hover:bg-white/10 active:scale-[0.98]"
             >
-              Partnership or investment
+              Healthcare Organizations
+            </Link>
+            <Link
+              href="/contact?audience=investor"
+              className="inline-flex items-center justify-center rounded-lg border border-[#D7E0EA]/30 bg-white/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all hover:bg-white/10 active:scale-[0.98]"
+            >
+              Investors & Advisors
             </Link>
           </div>
+
+          <p className="text-[11px] font-mono text-slate-400">
+            MEDRELEX does not provide clinical care, diagnoses, or medical
+            advice. Please do not submit medical records through this website.
+          </p>
         </div>
       </section>
     </div>

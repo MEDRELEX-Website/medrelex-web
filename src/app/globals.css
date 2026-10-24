@@ -26,6 +26,10 @@
   --font-mono: var(--font-geist-mono), monospace;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #F8FAFC;
   color: #172B4D;

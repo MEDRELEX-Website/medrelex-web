@@ -51,6 +51,12 @@ export default function SiteHeader() {
     };
   }, [isOpen]);
 
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setIsOpen(false);
+  }
+
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
@@ -62,72 +68,74 @@ export default function SiteHeader() {
   return (
     <header
       suppressHydrationWarning
-      className="sticky top-0 z-50 w-full border-b border-[#D7E0EA] bg-[#F8FAFC]/95 backdrop-blur-sm"
+      className="sticky top-0 z-50 w-full"
     >
       <div
         suppressHydrationWarning
-        className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12"
+        className="w-full border-b border-[#D7E0EA] bg-[#F8FAFC]/95 backdrop-blur-sm"
       >
-        {/* Brand Wordmark */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded-sm"
-          onClick={closeMenu}
-          aria-label="MEDRELEX home"
-        >
-          <span className="text-xl font-bold tracking-tight text-[#0A192F] transition-colors group-hover:text-[#36978F]">
-            MEDRELEX
-          </span>
-          <span className="hidden sm:inline-block text-[11px] font-mono uppercase tracking-wider text-[#64748B] border border-[#D7E0EA] rounded px-1.5 py-0.5 ml-1">
-            Research Preview
-          </span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav
-          className="hidden lg:flex lg:items-center lg:gap-8"
-          aria-label="Primary navigation"
-        >
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded px-1 py-0.5 ${
-                  isActive
-                    ? "text-[#0A192F] font-semibold underline decoration-[#36978F] decoration-2 underline-offset-8"
-                    : "text-[#64748B] hover:text-[#0A192F]"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Desktop Primary Action */}
-        <div className="hidden lg:flex lg:items-center">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12">
+          {/* Brand Wordmark */}
           <Link
-            href="/contact?audience=individual"
-            className="inline-flex items-center justify-center rounded-lg bg-[#0A192F] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#172B4D] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] focus-visible:ring-offset-2"
+            href="/"
+            className="flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded-sm"
+            onClick={closeMenu}
+            aria-label="MEDRELEX home"
           >
-            Join Early Research
+            <span className="text-xl font-bold tracking-tight text-[#0A192F] transition-colors group-hover:text-[#36978F]">
+              MEDRELEX
+            </span>
+            <span className="hidden sm:inline-block text-[11px] font-mono uppercase tracking-wider text-[#64748B] border border-[#D7E0EA] rounded px-1.5 py-0.5 ml-1">
+              Research Preview
+            </span>
           </Link>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex items-center lg:hidden">
-          <button
-            type="button"
-            onClick={toggleMenu}
-            className="inline-flex items-center justify-center rounded-lg p-2.5 text-[#172B4D] border border-[#D7E0EA] bg-white hover:bg-[#E8EEF5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F]"
-            aria-expanded={isOpen}
-            aria-controls="mobile-nav-drawer"
-            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+          {/* Desktop Navigation */}
+          <nav
+            className="hidden lg:flex lg:items-center lg:gap-8"
+            aria-label="Primary navigation"
           >
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded px-1 py-0.5 ${
+                    isActive
+                      ? "text-[#0A192F] font-semibold underline decoration-[#36978F] decoration-2 underline-offset-8"
+                      : "text-[#64748B] hover:text-[#0A192F]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Desktop Primary Action */}
+          <div className="hidden lg:flex lg:items-center">
+            <Link
+              href="/contact?audience=individual"
+              className="inline-flex items-center justify-center rounded-lg bg-[#0A192F] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#172B4D] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] focus-visible:ring-offset-2"
+            >
+              Join Early Research
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex items-center lg:hidden">
+            <button
+              type="button"
+              onClick={toggleMenu}
+              className="inline-flex items-center justify-center rounded-lg p-2.5 text-[#172B4D] border border-[#D7E0EA] bg-white hover:bg-[#E8EEF5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F]"
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav-drawer"
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+            >
+              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -135,36 +143,40 @@ export default function SiteHeader() {
       {mounted && isOpen && (
         <div
           id="mobile-nav-drawer"
-          className="fixed inset-x-0 top-20 bottom-0 bg-[#F8FAFC] border-b border-[#D7E0EA] px-6 py-8 shadow-xl lg:hidden overflow-y-auto"
+          className="fixed inset-x-0 top-20 bottom-0 z-50 bg-[#F8FAFC]/98 backdrop-blur-md overflow-y-auto lg:hidden"
         >
-          <nav className="flex flex-col space-y-4 max-w-lg mx-auto" aria-label="Mobile navigation">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMenu}
-                  className={`rounded-lg px-4 py-3 text-base font-medium transition-colors ${
-                    isActive
-                      ? "bg-[#E8EEF5] text-[#0A192F] font-semibold"
-                      : "text-[#172B4D] hover:bg-[#E8EEF5]/70"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-            <div className="pt-4 border-t border-[#D7E0EA]">
+          <div className="min-h-[calc(100dvh-5rem)] flex flex-col justify-between px-6 py-8 max-w-lg mx-auto">
+            <nav className="flex flex-col space-y-3" aria-label="Mobile navigation">
+              {navLinks.map((link, idx) => {
+                const isActive = pathname === link.href;
+                return (
+                  <div key={link.href} className={idx > 0 ? "border-t border-[#D7E0EA]/50 pt-3" : ""}>
+                    <Link
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={`flex items-center min-h-[44px] rounded-lg px-4 py-3 text-lg font-medium transition-colors ${
+                        isActive
+                          ? "bg-[#E8EEF5] text-[#0A192F] font-semibold"
+                          : "text-[#0A192F] hover:bg-[#E8EEF5]/70 hover:text-[#36978F]"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </div>
+                );
+              })}
+            </nav>
+
+            <div className="pt-8 pb-4 border-t border-[#D7E0EA] mt-auto">
               <Link
                 href="/contact?audience=individual"
                 onClick={closeMenu}
-                className="flex w-full items-center justify-center rounded-lg bg-[#0A192F] px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#172B4D]"
+                className="flex w-full min-h-[48px] items-center justify-center rounded-lg bg-[#0A192F] px-5 py-3.5 text-center text-sm font-semibold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#172B4D] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F]"
               >
                 Join Early Research
               </Link>
             </div>
-          </nav>
+          </div>
         </div>
       )}
     </header>
