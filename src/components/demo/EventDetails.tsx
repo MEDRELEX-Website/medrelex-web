@@ -30,13 +30,6 @@ export default function EventDetails({ event, onClose, className = "" }: EventDe
   const panelRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (event) {
-      const btn = panelRef.current?.querySelector<HTMLElement>("button");
-      btn?.focus();
-    }
-  }, [event]);
-
-  React.useEffect(() => {
     if (!event) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);

@@ -126,62 +126,98 @@ export default function ConceptDemo() {
     announce("Paused. Use step controls or press Play to continue.");
   }, []);
 
+  const scrollYRef = React.useRef<number | null>(null);
+
+  const preserveScroll = React.useCallback((fn: () => void) => {
+    if (typeof window !== "undefined") {
+      scrollYRef.current = window.scrollY;
+    }
+    fn();
+  }, []);
+
+  React.useLayoutEffect(() => {
+    if (scrollYRef.current !== null && typeof window !== "undefined") {
+      const targetY = scrollYRef.current;
+      window.scrollTo({ top: targetY, behavior: "instant" });
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: targetY, behavior: "instant" });
+      });
+      scrollYRef.current = null;
+    }
+  }, [scene, selectedEventId, playbackState]);
+
   const handleNext = React.useCallback(() => {
-    clearTimer();
-    const next = Math.min(scene + 1, 6);
-    setScene(next);
-    setPlaybackState(next === 6 ? "completed" : "manual");
-    if (next === 1 || next === 2) setSelectedEventId(null);
-    else if (next === 3) setSelectedEventId("E4");
-    else if (next === 4) setSelectedEventId("E5");
-    else if (next >= 5) setSelectedEventId(null);
-    announce(SCENE_LABELS[Math.min(next, SCENE_LABELS.length - 1)]);
-  }, [scene]);
+    preserveScroll(() => {
+      clearTimer();
+      const next = Math.min(scene + 1, 6);
+      setScene(next);
+      setPlaybackState(next === 6 ? "completed" : "manual");
+      if (next === 1 || next === 2) setSelectedEventId(null);
+      else if (next === 3) setSelectedEventId("E4");
+      else if (next === 4) setSelectedEventId("E5");
+      else if (next >= 5) setSelectedEventId(null);
+      announce(SCENE_LABELS[Math.min(next, SCENE_LABELS.length - 1)]);
+    });
+  }, [scene, preserveScroll]);
 
   const handlePrev = React.useCallback(() => {
-    clearTimer();
-    const prev = Math.max(scene - 1, 1);
-    setScene(prev);
-    setPlaybackState("manual");
-    if (prev === 1 || prev === 2) setSelectedEventId(null);
-    else if (prev === 3) setSelectedEventId("E4");
-    else if (prev === 4) setSelectedEventId("E5");
-    else if (prev >= 5) setSelectedEventId(null);
-    announce(SCENE_LABELS[Math.min(prev, SCENE_LABELS.length - 1)]);
-  }, [scene]);
+    preserveScroll(() => {
+      clearTimer();
+      const prev = Math.max(scene - 1, 1);
+      setScene(prev);
+      setPlaybackState("manual");
+      if (prev === 1 || prev === 2) setSelectedEventId(null);
+      else if (prev === 3) setSelectedEventId("E4");
+      else if (prev === 4) setSelectedEventId("E5");
+      else if (prev >= 5) setSelectedEventId(null);
+      announce(SCENE_LABELS[Math.min(prev, SCENE_LABELS.length - 1)]);
+    });
+  }, [scene, preserveScroll]);
 
   const handleReplay = React.useCallback(() => {
-    clearTimer();
-    setScene(0);
-    setSelectedEventId(null);
-    setActiveFilters([]);
-    setPlaybackState("idle");
-    announce("Restarted. Press Play to begin.");
-  }, []);
+    preserveScroll(() => {
+      clearTimer();
+      setScene(0);
+      setSelectedEventId(null);
+      setActiveFilters([]);
+      setPlaybackState("idle");
+      announce("Restarted. Press Play to begin.");
+    });
+  }, [preserveScroll]);
 
   const handleSkip = React.useCallback(() => {
-    clearTimer();
-    setScene(6);
-    setPlaybackState("completed");
-    setSelectedEventId(null);
-    announce("Skipped to final state. Explore manually.");
-  }, []);
+    preserveScroll(() => {
+      clearTimer();
+      setScene(6);
+      setPlaybackState("completed");
+      setSelectedEventId(null);
+      announce("Skipped to final state. Explore manually.");
+    });
+  }, [preserveScroll]);
 
   const handleSelectEvent = React.useCallback((id: string) => {
-    setSelectedEventId((prev) => (prev === id ? null : id));
-    setPlaybackState((s) => (s === "playing" ? "manual" : s));
-    clearTimer();
-  }, []);
+    preserveScroll(() => {
+      setSelectedEventId((prev) => (prev === id ? null : id));
+      setPlaybackState((s) => (s === "playing" ? "manual" : s));
+      clearTimer();
+    });
+  }, [preserveScroll]);
 
   const handleToggleFilter = React.useCallback((cat: EventCategory) => {
-    setActiveFilters((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
-  }, []);
+    preserveScroll(() => {
+      setActiveFilters((prev) =>
+        prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+      );
+    });
+  }, [preserveScroll]);
 
-  const handleClearFilters = React.useCallback(() => setActiveFilters([]), []);
+  const handleClearFilters = React.useCallback(() => {
+    preserveScroll(() => setActiveFilters([]));
+  }, [preserveScroll]);
 
-  const handleCloseDetail = React.useCallback(() => setSelectedEventId(null), []);
+  const handleCloseDetail = React.useCallback(() => {
+    preserveScroll(() => setSelectedEventId(null));
+  }, [preserveScroll]);
 
   // Cleanup on unmount
   React.useEffect(() => () => clearTimer(), []);
@@ -355,6 +391,7 @@ function DemoFrame({ children }: { children: React.ReactNode }) {
   return (
     <section
       aria-label="MEDRELEX Interactive Concept Demonstration"
+      style={{ overflowAnchor: "none" }}
       className="flex flex-col rounded-[14px] border border-[#D7E0EA] bg-white shadow-sm overflow-hidden"
     >
       {/* Top persistent banner — required per spec */}
@@ -366,7 +403,7 @@ function DemoFrame({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col min-h-0">{children}</div>
+      <div className="flex flex-1 flex-col min-h-0" style={{ overflowAnchor: "none" }}>{children}</div>
 
       {/* Bottom in-frame disclaimer — required per spec */}
       <div className="border-t border-[#D7E0EA] bg-[#F8FAFC] px-5 py-3">

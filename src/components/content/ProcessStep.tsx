@@ -20,12 +20,12 @@ export default function ProcessStep({
       className={`rounded-[14px] border border-[#D7E0EA] bg-white p-6 sm:p-8 shadow-xs flex flex-col justify-between transition-colors hover:border-[#36978F]/40 ${className}`}
     >
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-2xl sm:text-3xl font-bold tracking-tight text-[#36978F]">
+        <div className="flex items-center justify-between gap-2.5">
+          <span className="font-mono text-2xl sm:text-3xl font-bold tracking-tight text-[#36978F] shrink-0">
             {stepNumber}
           </span>
           {statusQualifier && (
-            <span className="rounded bg-[#E8EEF5] px-2 py-0.5 text-[11px] font-mono font-medium text-[#0A192F] border border-[#D7E0EA]">
+            <span className="rounded bg-[#E8EEF5] px-2 py-0.5 text-[11px] font-mono font-medium text-[#0A192F] border border-[#D7E0EA] shrink-0 text-right">
               {statusQualifier}
             </span>
           )}

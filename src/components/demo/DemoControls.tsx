@@ -34,6 +34,7 @@ function IconBtn({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
@@ -84,6 +85,7 @@ export default function DemoControls({
 
         {isPlaying ? (
           <button
+            type="button"
             onClick={onPause}
             aria-label="Pause animation"
             className={[
@@ -96,6 +98,7 @@ export default function DemoControls({
           </button>
         ) : (
           <button
+            type="button"
             onClick={isCompleted ? onReplay : onPlay}
             aria-label={isCompleted ? "Replay animation" : "Play animation"}
             className={[
@@ -119,6 +122,7 @@ export default function DemoControls({
       {/* Skip */}
       {!isCompleted && (
         <button
+          type="button"
           onClick={onSkip}
           aria-label="Skip to final state"
           className={[

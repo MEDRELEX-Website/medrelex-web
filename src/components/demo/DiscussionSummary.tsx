@@ -16,11 +16,12 @@ interface DiscussionSummaryProps {
 }
 
 export default function DiscussionSummary({ visible, className = "" }: DiscussionSummaryProps) {
+  if (!visible) return null;
+
   return (
     <div
       role="region"
       aria-label="Fictional discussion summary"
-      aria-hidden={!visible}
       className={[
         "rounded-[14px] border border-[#D7E0EA] bg-white shadow-sm overflow-hidden",
         "transition-all duration-450",

@@ -35,7 +35,7 @@ export default function PlatformPage() {
       step: "02",
       title: "Place events in time",
       desc: "A longitudinal view could make it easier to see when measurements, reported symptoms, medication changes, and other events occurred.",
-      status: "Product vision",
+      status: "Unique Selling Point",
     },
     {
       step: "03",
@@ -47,7 +47,7 @@ export default function PlatformPage() {
       step: "04",
       title: "Prepare for a conversation",
       desc: "A concise view may help a person identify questions to discuss with an authorized healthcare professional. It does not replace clinical judgment.",
-      status: "Potential use; not CDS",
+      status: "Potential use",
     },
   ];
 
