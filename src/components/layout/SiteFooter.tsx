@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SiteFooter() {
   const currentYear = 2026;
@@ -26,9 +27,16 @@ export default function SiteFooter() {
           <div className="space-y-4 lg:col-span-6">
             <Link
               href="/"
-              className="inline-block text-xl font-bold tracking-tight text-white hover:text-[#36978F] transition-colors"
+              className="inline-flex items-center gap-3 text-xl font-bold tracking-tight text-white hover:text-[#36978F] transition-colors group"
             >
-              MEDRELEX
+              <Image
+                src="/images/logos/medrelex-mark-dark.png"
+                alt="MEDRELEX Logo"
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain transition-transform duration-200 group-hover:scale-105"
+              />
+              <span>MEDRELEX</span>
             </Link>
             <p className="text-sm leading-relaxed text-[#D7E0EA]/80 max-w-md">
               MEDRELEX is developing a private health intelligence platform designed to help people understand health information over time.

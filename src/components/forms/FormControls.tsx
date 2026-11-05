@@ -37,7 +37,7 @@ export function FormField({
           htmlFor={id}
           className="block text-xs font-semibold uppercase tracking-wider text-[#0A192F] font-mono"
         >
-          {label} {required && <span className="text-[#36978F]" aria-hidden>*</span>}
+          {label} {required && <span className="text-[#36978F] font-bold text-sm leading-none" aria-hidden>*</span>}
           {required && <span className="sr-only">(required)</span>}
         </label>
         {counter && (

@@ -43,11 +43,11 @@ export default function OtherForm({
   const [submitting, setSubmitting] = useState(false);
   const [generalError, setGeneralError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (initialReason && OTHER_REASONS.includes(initialReason)) {
-      setFormData((prev) => ({ ...prev, reason: initialReason }));
-    }
-  }, [initialReason]);
+  const [prevReason, setPrevReason] = useState(initialReason);
+  if (initialReason && initialReason !== prevReason && OTHER_REASONS.includes(initialReason)) {
+    setPrevReason(initialReason);
+    setFormData((prev) => ({ ...prev, reason: initialReason }));
+  }
 
   useEffect(() => {
     const isDirty = Boolean(
@@ -221,7 +221,14 @@ export default function OtherForm({
       </FormField>
 
       {/* Mandatory Consent Checkbox */}
-      <div className="pt-2">
+      <div className="pt-2 space-y-1.5">
+        <label
+          htmlFor={fieldIdMap.consent}
+          className="block text-xs font-semibold uppercase tracking-wider text-[#0A192F] font-mono cursor-pointer"
+        >
+          Privacy & Terms <span className="text-[#36978F]" aria-hidden>*</span>
+          <span className="sr-only">(required)</span>
+        </label>
         <Checkbox
           id={fieldIdMap.consent}
           required

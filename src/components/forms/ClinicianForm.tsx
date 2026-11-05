@@ -380,7 +380,14 @@ export default function ClinicianForm({
       </FormField>
 
       {/* Mandatory Consent Checkbox */}
-      <div className="pt-2">
+      <div className="pt-2 space-y-1.5">
+        <label
+          htmlFor={fieldIdMap.consent}
+          className="block text-xs font-semibold uppercase tracking-wider text-[#0A192F] font-mono cursor-pointer"
+        >
+          Privacy & Terms <span className="text-[#36978F]" aria-hidden>*</span>
+          <span className="sr-only">(required)</span>
+        </label>
         <Checkbox
           id={fieldIdMap.consent}
           required

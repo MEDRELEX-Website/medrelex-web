@@ -47,15 +47,20 @@ export default function ContactFormShell({
       {/* Form Content */}
       <form onSubmit={onSubmit} noValidate className="p-6 sm:p-10 space-y-7">
         {/* Header */}
-        <div className="border-b border-[#D7E0EA] pb-4">
-          <h3 className="text-xl sm:text-2xl font-semibold text-[#0A192F]">
-            {title}
-          </h3>
-          {subtitle && (
-            <p className="text-xs text-[#64748B] font-mono uppercase mt-1">
-              {subtitle}
-            </p>
-          )}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[#D7E0EA] pb-4 gap-2">
+          <div>
+            <h3 className="text-xl sm:text-2xl font-semibold text-[#0A192F]">
+              {title}
+            </h3>
+            {subtitle && (
+              <p className="text-xs text-[#64748B] font-mono uppercase mt-1">
+                {subtitle}
+              </p>
+            )}
+          </div>
+          <p className="text-[11px] font-mono text-[#64748B] shrink-0">
+            <span className="text-[#36978F] font-bold text-xs" aria-hidden>*</span> Required field
+          </p>
         </div>
 
         {/* Server or General Error Banner */}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
@@ -75,13 +76,21 @@ export default function SiteHeader() {
         className="w-full border-b border-[#D7E0EA] bg-[#F8FAFC]/95 backdrop-blur-sm"
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12">
-          {/* Brand Wordmark */}
+          {/* Brand Wordmark & Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded-sm"
+            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#36978F] rounded-sm"
             onClick={closeMenu}
             aria-label="MEDRELEX home"
           >
+            <Image
+              src="/images/logos/medrelex-mark.png"
+              alt="MEDRELEX Logo"
+              width={34}
+              height={34}
+              priority
+              className="h-8.5 w-8.5 object-contain transition-transform duration-200 group-hover:scale-105"
+            />
             <span className="text-xl font-bold tracking-tight text-[#0A192F] transition-colors group-hover:text-[#36978F]">
               MEDRELEX
             </span>
